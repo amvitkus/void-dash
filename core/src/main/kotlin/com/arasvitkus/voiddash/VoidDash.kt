@@ -1,11 +1,10 @@
-package com.arasvitkus.voiddash;
+package com.arasvitkus.voiddash
 
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Game
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class VoidDash extends Game {
-	@Override
-	public void create() {
-		setScreen(new FirstScreen());
-	}
+/** [com.badlogic.gdx.ApplicationListener] implementation shared by all platforms.  */
+class VoidDash : Game() {
+    override fun create() {
+        setScreen(FirstScreen())
+    }
 }
