@@ -1,10 +1,23 @@
 package com.arasvitkus.voiddash
 
-import com.badlogic.gdx.Game
+import com.arasvitkus.voiddash.screen.FirstScreen
+import com.arasvitkus.voiddash.screen.SecondScreen
+import com.badlogic.gdx.Application.LOG_DEBUG
+import com.badlogic.gdx.Gdx
+import ktx.app.KtxGame
+import ktx.app.KtxScreen
+import ktx.log.Logger
+import ktx.log.debug
+import ktx.log.logger
 
-/** [com.badlogic.gdx.ApplicationListener] implementation shared by all platforms.  */
-class VoidDash : Game() {
+private val LOG: Logger = logger<VoidDash>()
+
+class VoidDash : KtxGame<KtxScreen>() {
     override fun create() {
-        setScreen(FirstScreen())
+        Gdx.app.logLevel = LOG_DEBUG
+        LOG.debug { "Create game instance" }
+        addScreen(FirstScreen(this))
+        addScreen(SecondScreen(this))
+        setScreen<FirstScreen>()
     }
 }
