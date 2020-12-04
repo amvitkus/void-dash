@@ -20,7 +20,7 @@ class GameScreen(game: VoidDash) : VoidDashScreen(game) {
     private val viewport = FitViewport(9f, 16f)
     private val texture = Texture(Gdx.files.internal("graphics/ship_base.png"))
     private val sprite = Sprite(texture).apply {
-        setSize(1f, 1f)
+        setSize(1f, 1f)//Can use const UNIT_SIZE, ex: 9 * UNIT_SIZE for each entry
     }//Sprite doesn't need to be disposed.
 
     override fun show() {
@@ -38,7 +38,7 @@ class GameScreen(game: VoidDash) : VoidDashScreen(game) {
             sprite.draw(it)
         }
 
-        //uiViewport.apply()... UI rendering
+        //uiViewport.apply()... UI rendering. Eventually.
     }
 
     override fun dispose() {
