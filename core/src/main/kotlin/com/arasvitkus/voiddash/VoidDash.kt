@@ -1,9 +1,12 @@
 package com.arasvitkus.voiddash
 
-import com.arasvitkus.voiddash.screen.FirstScreen
-import com.arasvitkus.voiddash.screen.SecondScreen
+
+import com.arasvitkus.voiddash.screen.GameScreen
+import com.arasvitkus.voiddash.screen.VoidDashScreen
 import com.badlogic.gdx.Application.LOG_DEBUG
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.log.Logger
@@ -12,12 +15,18 @@ import ktx.log.logger
 
 private val LOG: Logger = logger<VoidDash>()
 
-class VoidDash : KtxGame<KtxScreen>() {
+class VoidDash : KtxGame<VoidDashScreen>() {
+    val batch: Batch by lazy { SpriteBatch() }//By lazy gets initialized the first time when I do something with the batch.
+
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
         LOG.debug { "Create game instance" }
-        addScreen(FirstScreen(this))
-        addScreen(SecondScreen(this))
-        setScreen<FirstScreen>()
+        addScreen(GameScreen(this))
+        setScreen<GameScreen>()
+    }
+
+    //Releases resources, saves memory
+    override fun dispose() {
+        batch.dispose()
     }
 }
