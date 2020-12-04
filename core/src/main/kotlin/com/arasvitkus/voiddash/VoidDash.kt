@@ -13,6 +13,7 @@ import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
 
+const val UNIT_SCALE = 1 / 16f
 private val LOG: Logger = logger<VoidDash>()
 
 class VoidDash : KtxGame<VoidDashScreen>() {
