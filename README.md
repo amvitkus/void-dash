@@ -1,2 +1,2 @@
 # void-dash
-Autoscroller space game written in Kotlin using libGDX.
+Autoscroller space game written in Kotlin using libGDX with Ashley.
