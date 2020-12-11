@@ -2,6 +2,8 @@ package com.arasvitkus.voiddash.screen
 
 import com.arasvitkus.voiddash.UNIT_SCALE
 import com.arasvitkus.voiddash.VoidDash
+import com.arasvitkus.voiddash.ecs.component.GraphicComponent
+import com.arasvitkus.voiddash.ecs.component.TransformComponent
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
@@ -9,6 +11,9 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.utils.viewport.FitViewport
 import ktx.app.KtxScreen
+import ktx.ashley.entity
+import ktx.ashley.get
+import ktx.ashley.with
 import ktx.graphics.use
 import ktx.log.Logger
 import ktx.log.debug
@@ -18,14 +23,23 @@ private val LOG: Logger = logger<GameScreen>()
 
 class GameScreen(game: VoidDash) : VoidDashScreen(game) {
     private val viewport = FitViewport(9f, 16f)
-    private val texture = Texture(Gdx.files.internal("graphics/ship_base.png"))
-    private val sprite = Sprite(texture).apply {
-        setSize(1f, 1f)//Can use const UNIT_SIZE, ex: 9 * UNIT_SIZE for each entry
-    }//Sprite doesn't need to be disposed.
+    private val playerTexture = Texture(Gdx.files.internal("graphics/ship_base.png"))
+
+    private val player = engine.entity {
+        with<TransformComponent> {
+            position.set(1f, 1f, 0f)
+        }
+        with<GraphicComponent> {
+            sprite.run {
+                setRegion(playerTexture)
+                setSize(texture.width * UNIT_SCALE, texture.height * UNIT_SCALE)
+                setOriginCenter()
+            }
+        }
+    }
 
     override fun show() {
         LOG.debug { "Game screen is showing" }
-        sprite.setPosition(1f, 1f)//0,0 coordinate bottom left of screen
     }
 
     override fun resize(width: Int, height: Int) {
@@ -33,15 +47,24 @@ class GameScreen(game: VoidDash) : VoidDashScreen(game) {
     }
 
     override fun render(delta: Float) {
+        engine.update(delta)
+
         viewport.apply()
         batch.use(viewport.camera.combined) {
-            sprite.draw(it)
-        }
+            player[GraphicComponent.mapper]?.let {
+                player[TransformComponent.mapper]?.let {
+                    graphic.sprite.run {
+                        rotation = transform.rotationDeg
+                        setBounds(transform.position.x, transform.position.y, transform.size.x, transform.size.y)
+                        draw(batch)
 
-        //uiViewport.apply()... UI rendering. Eventually.
+                    }
+                }
+            }
+        }
     }
 
     override fun dispose() {
-        texture.dispose()
+        playerTexture.dispose()
     }
 }

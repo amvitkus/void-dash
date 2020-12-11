@@ -1,7 +1,12 @@
 package com.arasvitkus.voiddash.screen
 
 import com.arasvitkus.voiddash.VoidDash
+import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.graphics.g2d.Batch
 import ktx.app.KtxScreen
 
-abstract class VoidDashScreen(val game: VoidDash, val batch: Batch= game.batch) : KtxScreen
+abstract class VoidDashScreen(
+    val game: VoidDash,
+    val batch: Batch = game.batch,
+    val engine: Engine = game.engine
+    ) : KtxScreen
