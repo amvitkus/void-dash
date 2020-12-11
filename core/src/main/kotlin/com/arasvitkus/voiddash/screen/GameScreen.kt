@@ -49,7 +49,7 @@ class GameScreen(game: VoidDash) : VoidDashScreen(game) {
     override fun render(delta: Float) {
         engine.update(delta)
 
-        viewport.apply()
+        viewport.apply() //Video 7 created this code with errors
         batch.use(viewport.camera.combined) {
             player[GraphicComponent.mapper]?.let {
                 player[TransformComponent.mapper]?.let {
